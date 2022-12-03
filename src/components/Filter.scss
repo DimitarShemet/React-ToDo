@@ -1,0 +1,21 @@
+.text-field__icon {
+  position: relative;
+}
+.text-field__icon input {
+  padding-right: 2.5rem;
+}
+.text-field__aicon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  top: 0;
+  bottom: 0;
+  right: 0.875rem;
+  width: 1rem;
+  cursor: pointer;
+  color: #bdbdbd;
+  transition: color 0.15s ease-in-out;
+}
+.text-field__aicon:hover {
+  color: #212529;
+}

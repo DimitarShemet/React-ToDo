@@ -1,20 +1,26 @@
 import React from "react";
 import "./Enter.scss";
-import { useRef } from "react";
 
 type PropsEnter = {
   cbAddNewNote: (value: string) => void;
-  newNoteName: string;
+  draftNoteName: string;
+  setDraftNoteName: (value: string) => void;
 };
 
-export const Enter = ({ cbAddNewNote, newNoteName }: PropsEnter) => {
-  const refValue = useRef<HTMLInputElement | null>(null);
-  const send = () => {
-    let value = refValue?.current?.value;
-    if (value) {
-      cbAddNewNote(value);
+export const Enter = ({
+  cbAddNewNote,
+  setDraftNoteName,
+  draftNoteName,
+}: PropsEnter) => {
+  const sendNote = () => {
+    if (draftNoteName) {
+      cbAddNewNote(draftNoteName);
     }
   };
+  const handleInputChange = (EO: React.ChangeEvent<HTMLInputElement>) => {
+    setDraftNoteName(EO.target.value);
+  };
+
   return (
     <div className="enter">
       <div className="text-field">
@@ -23,14 +29,15 @@ export const Enter = ({ cbAddNewNote, newNoteName }: PropsEnter) => {
         </label>
         <div className="text-field__group">
           <input
-            ref={refValue}
             className="text-field__input"
             type="search"
             id="search"
             name="search"
             placeholder="Введите название заметки"
+            value={draftNoteName}
+            onChange={handleInputChange}
           />
-          <button className="text-field__btn" type="button" onClick={send}>
+          <button className="text-field__btn" type="button" onClick={sendNote}>
             Добавить
           </button>
         </div>

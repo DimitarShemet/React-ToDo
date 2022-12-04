@@ -5,10 +5,17 @@ import dataItems from "../db.json";
 
 type Listprops = {
   newNoteName: string;
-  clearInput: (value: string) => void;
+  clearNoteInput: () => void;
+  newFilterWord: string;
+  clearFilterInput: () => void;
 };
 
-export const List = ({ newNoteName, clearInput }: Listprops) => {
+export const List = ({
+  newNoteName,
+  newFilterWord,
+  clearNoteInput: clearInput,
+  clearFilterInput,
+}: Listprops) => {
   interface dataItems {
     id: number;
     name: string;
@@ -26,13 +33,25 @@ export const List = ({ newNoteName, clearInput }: Listprops) => {
   };
   useEffect(() => {
     if (newNoteName) {
-      const newData = [...data];
-      newData.push({ id: getNewId(newData), name: newNoteName, tags: [] });
-      setData(newData);
-      clearInput("");
+      const updatedData = [...data];
+      updatedData.push({
+        id: getNewId(updatedData),
+        name: newNoteName,
+        tags: [],
+      });
+      setData(updatedData);
+      clearInput();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newNoteName]);
+  useEffect(() => {
+    if (newFilterWord) {
+      const updatedData = [...data];
+      setData(updatedData.filter((elem) => elem.tags.includes(newFilterWord)));
+      clearFilterInput();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [newFilterWord]);
 
   const getNoteIndexById = (id: number) => {
     return data.findIndex((elem) => elem.id === id); //везде проставить
@@ -63,6 +82,17 @@ export const List = ({ newNoteName, clearInput }: Listprops) => {
       setData(updatedData);
     }
   };
+  const delHashFromNoteName = (id: number, value: string) => {
+    const noteIndex = getNoteIndexById(id);
+    if (noteIndex !== -1) {
+      const updatedNote = { ...data[noteIndex] };
+      updatedNote.name = value;
+      const updatedData = [...data];
+      updatedData[noteIndex] = updatedNote;
+      console.log(updatedData);
+      setData(updatedData);
+    }
+  };
 
   const changeTagName = (id: number, value: string, index: number) => {
     const noteIndex = getNoteIndexById(id);
@@ -74,16 +104,18 @@ export const List = ({ newNoteName, clearInput }: Listprops) => {
       setData(updatedData);
     }
   };
-  const addNewTag = (id: number) => {
+  const addNewTag = (id: number, value?: string) => {
     const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
-      console.log(id);
       const updatedData = [...data];
-      updatedData[noteIndex].tags.push("Введите новый тег...");
+      if (value) {
+        updatedData[noteIndex].tags.push(`#${value}`);
+      } else {
+        updatedData[noteIndex].tags.push("#");
+      }
       setData(updatedData);
     }
   };
-  console.log(data);
   return (
     <div className="list_wrapper">
       <div className="list">
@@ -99,6 +131,7 @@ export const List = ({ newNoteName, clearInput }: Listprops) => {
               cbChangeNoteName={changeNoteName}
               cbChangeTagName={changeTagName}
               cbAddNewTag={addNewTag}
+              delHashFromNoteName={delHashFromNoteName}
             />
           );
         })}

@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import "./Note.scss";
 import { BasketIcon } from "./icons/BasketIcon";
 import { CrossIcon } from "./icons/CrossIcon";
@@ -12,7 +12,8 @@ type PropsNote = {
   cbRemoveTag: (id: number, value: string, index: number) => void;
   cbChangeNoteName: (id: number, value: string) => void;
   cbChangeTagName: (id: number, value: string, index: number) => void;
-  cbAddNewTag: (id: number) => void;
+  cbAddNewTag: (id: number, value?: string) => void;
+  delHashFromNoteName: (id: number, value: string) => void;
 };
 
 export const Note = ({
@@ -24,8 +25,15 @@ export const Note = ({
   cbChangeNoteName,
   cbChangeTagName,
   cbAddNewTag,
+  delHashFromNoteName,
 }: PropsNote) => {
-  const [editMode, setEditMode] = useState(false);
+  const [inputValue, setInputValue] = useState(name);
+  useEffect(() => {
+    if (name) {
+      setInputValue(name);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [name]);
   const cbDeleteNote = () => {
     cbRemoveNote(id);
   };
@@ -33,25 +41,49 @@ export const Note = ({
     cbRemoveTag(id, value, index);
   };
   const changeNoteName = (EO: React.ChangeEvent<HTMLInputElement>) => {
-    cbChangeNoteName(id, EO.target.value);
+    const currValue = EO.target.value;
+    // cbChangeNoteName(id, currValue);
+    setInputValue(currValue);
   };
   const changeTagName = (
     EO: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    cbChangeTagName(id, EO.target.value, index);
+    let currValue = EO.target.value;
+    if (currValue[0] !== "#") {
+      currValue = `#${currValue}`;
+    }
+    cbChangeTagName(id, currValue, index);
   };
   const addNewTag = () => {
-    console.log(id);
     cbAddNewTag(id);
-    // setEditMode(true);
+  };
+  const addNewTagFromValue = (EO: React.ChangeEvent<HTMLInputElement>) => {
+    // let currValue = EO.target.value;
+    const splittedInput = inputValue.split("#");
+    const valueForNote = splittedInput[0];
+    cbChangeNoteName(id, valueForNote);
+    setInputValue(valueForNote);
+    if (splittedInput.length > 1) {
+      const tags = [...splittedInput];
+      tags.shift();
+      tags
+        .filter((t) => t)
+        .forEach((tag) => {
+          cbAddNewTag(id, tag);
+        });
+    }
   };
 
   return (
     <div className="note" key={id}>
       <div className="text">
         <div className="note__name">
-          <input onChange={changeNoteName} value={name}></input>
+          <input
+            onChange={changeNoteName}
+            value={inputValue}
+            onBlur={addNewTagFromValue}
+          />
           <span onClick={cbDeleteNote}>
             <CrossIcon />
           </span>

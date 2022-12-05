@@ -13,13 +13,19 @@ export const Filter = ({
   draftFilterWord,
   setDraftFilterWord,
 }: PropsFilter) => {
+
   const sendFilterWord = () => {
     if (draftFilterWord) {
       cbAddNewFilterWord(draftFilterWord);
     }
   };
-  const handleInputChange = (EO: React.ChangeEvent<HTMLInputElement>) => {
-    setDraftFilterWord(EO.target.value);
+  
+  const handleInputChange=(EO: React.ChangeEvent<HTMLInputElement>) => {
+   let currValue=EO.target.value
+    if (currValue[0]!=="#") {
+      currValue = `#${currValue}`;
+    }
+    setDraftFilterWord(currValue);
   };
 
   return (

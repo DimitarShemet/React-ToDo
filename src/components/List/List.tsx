@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import "./List.scss";
 import { Note } from "../Note/Note";
 import dataItems from "../../db.json";
+import {
+  getDataFromLocalStorage,
+  setDataToLocalStorage,
+} from "../../LocalStorageService/LocalStorageHelper";
 
 type Listprops = {
   newNoteName: string;
@@ -9,6 +13,11 @@ type Listprops = {
   newFilterWord: string;
   clearFilterInput: () => void;
 };
+export interface DataItem {
+  id: number;
+  name: string;
+  tags: string[];
+}
 
 export const List = ({
   newNoteName,
@@ -16,18 +25,12 @@ export const List = ({
   clearNoteInput: clearInput,
   clearFilterInput,
 }: Listprops) => {
-  interface dataItems {
-    id: number;
-    name: string;
-    tags: string[];
-  }
-  const [data, setData] = useState<dataItems[]>(dataItems);
+
+  const [data, setData] = useState<DataItem[]>(getDataFromLocalStorage() || dataItems);
+  
   useEffect(() => {
-    const NewLocalStorageData = JSON.stringify(data);
-    localStorage.setItem("dataItems", NewLocalStorageData);
+    setDataToLocalStorage(data);
   }, [data]);
-  const LocData = JSON.parse(localStorage.getItem("dataItems") || "");
-  console.log(LocData);
 
   useEffect(() => {
     if (newNoteName) {
@@ -42,6 +45,7 @@ export const List = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newNoteName]);
+
   useEffect(() => {
     if (newFilterWord) {
       const updatedData = [...data];
@@ -51,7 +55,7 @@ export const List = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFilterWord]);
 
-  const getNewId = (data: dataItems[]): number => {
+  const getNewId = (data: DataItem[]): number => {
     return (
       data.reduce((maxId, note) => {
         const currId = note.id;
@@ -67,6 +71,7 @@ export const List = ({
   const removeNote = (id: number) => {
     setData(data.filter((elem) => elem.id !== id));
   };
+
   const removeTag = (id: number, index: number) => {
     const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
@@ -77,6 +82,7 @@ export const List = ({
       setData(updatedData);
     }
   };
+
   const changeNoteName = (id: number, value: string) => {
     const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
@@ -98,6 +104,7 @@ export const List = ({
       setData(updatedData);
     }
   };
+
   const addNewTag = (id: number, value?: string) => {
     const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
@@ -114,7 +121,7 @@ export const List = ({
   return (
     <div className="list_wrapper">
       <div className="list">
-        {LocData.map((elem: any) => {
+        {data.map((elem) => {
           return (
             <Note
               key={elem.id}

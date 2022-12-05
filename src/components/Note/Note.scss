@@ -1,7 +1,5 @@
 .note {
   background-color: #74d7ff;
-  display: flex;
-  justify-content: center;
   align-self: center;
   box-shadow: 0px 3px 15px dodgerblue;
   border-radius: 16px;
@@ -43,6 +41,11 @@
       input {
         background-color: cornflowerblue;
       }
+      svg:hover {
+        path {
+          fill: red;
+        }
+      }
     }
     .tag {
       box-shadow: 0px 3px 15px midnightblue;
@@ -61,6 +64,11 @@
       }
       input {
         background-color: #74d7ff;
+      }
+      svg:hover {
+        path {
+          fill: red;
+        }
       }
     }
     .tag__plus {

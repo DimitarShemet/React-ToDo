@@ -25,23 +25,29 @@ export const Note = ({
   cbChangeTagName,
   cbAddNewTag,
 }: PropsNote) => {
+  
   const [inputValue, setInputValue] = useState(name);
+
   useEffect(() => {
     if (name) {
       setInputValue(name);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
+
   const cbDeleteNote = () => {
     cbRemoveNote(id);
   };
+
   const removeTag = (index: number) => {
     cbRemoveTag(id, index);
   };
+
   const changeNoteName = (EO: React.ChangeEvent<HTMLInputElement>) => {
     const currValue = EO.target.value;
     setInputValue(currValue);
   };
+
   const changeTagName = (
     EO: React.ChangeEvent<HTMLInputElement>,
     index: number
@@ -52,9 +58,11 @@ export const Note = ({
     }
     cbChangeTagName(id, currValue, index);
   };
+
   const addNewTag = () => {
     cbAddNewTag(id);
   };
+
   const addNewTagFromValue = () => {
     const splittedInput = inputValue.split("#");
     const valueForNote = splittedInput[0];

@@ -13,15 +13,19 @@ export const App = () => {
   const addNewNote = (value: string) => {
     setNewNoteName(value);
   };
+
   const addNewFilterWord = (value: string) => {
     setNewFilterWord(value);
   };
+
   const clearDraftNoteName = () => {
     setDraftNoteName("");
   };
+
   const clearDraftFilterWord = () => {
     setDraftFilterWord("");
   };
+
   return (
     <div className="App">
       <div className="wrapper">

@@ -12,11 +12,13 @@ export const Enter = ({
   setDraftNoteName,
   draftNoteName,
 }: PropsEnter) => {
+  
   const sendNote = () => {
     if (draftNoteName) {
       cbAddNewNote(draftNoteName);
     }
   };
+
   const handleInputChange = (EO: React.ChangeEvent<HTMLInputElement>) => {
     setDraftNoteName(EO.target.value);
   };

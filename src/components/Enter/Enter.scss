@@ -19,6 +19,10 @@
   font-size: 1rem;
   border-radius: 0.25rem;
   transition: background-color 0.15s ease-in-out;
+  @media (max-width: 420px) {
+    font-size: 13px;
+    padding: 6px;
+  }
 }
 .text-field__btn:hover {
   background-color: #bdbdbd;
@@ -37,4 +41,5 @@
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-left-width: 0;
+ 
 }

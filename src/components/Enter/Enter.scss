@@ -28,6 +28,10 @@
   border-bottom-right-radius: 0;
   position: relative;
   z-index: 2;
+  @media (max-width: 650px) {
+    font-size: smaller;
+  }
+
 }
 .text-field__group .text-field__btn {
   position: relative;

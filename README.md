@@ -2,7 +2,7 @@
 
 ### Installation
 
-To-Do-List requires [Node.js]
+To-Do-List requires [Node.js](https://nodejs.org/)
 
 ```sh
 - git clone https://github.com/DimitarShemet/To-Do-List

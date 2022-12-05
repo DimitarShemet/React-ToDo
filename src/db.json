@@ -1,32 +1,32 @@
 [
   {
     "id": 1,
-    "name": "find job and start earn money, rich",
-    "tags": ["#ok", "#cool", "#177013"]
+    "name": "Пропылесосить",
+    "tags": ["#завтра", "#сегодня", "#уборка дома"]
   },
   {
     "id": 2,
-    "name": "Привет",
-    "tags": ["#angular2+", "#2cool4u"]
+    "name": "Встретить друзей",
+    "tags": ["#вечеринка", "#свадьба"]
   },
   {
     "id": 3,
-    "name": "ZAWARUDO",
-    "tags": ["#jojorefference", "#yareyare", "вйвйвйвййв"]
+    "name": "Доделать работу",
+    "tags": ["#IT", "#срочно", "#сегодня"]
   },
   {
     "id": 4,
-    "name": "ZA",
-    "tags": ["#jojorefference", "#yareyare", "вйвйвйвййв"]
+    "name": "День рождения",
+    "tags": ["#5 декабря", "#подарки", "#25 лет"]
   },
   {
     "id": 5,
-    "name": "Zdq",
-    "tags": ["#jojorefference", "#yareyare", "вйвйвйвййв"]
+    "name": "Распорядок дня",
+    "tags": ["#погулять с собакой", "#ежедневно", "#купить корм"]
   },
   {
     "id": 6,
-    "name": "Zdqdq",
-    "tags": ["#jojorefference", "#yareyare", "вйвйвйвййв"]
+    "name": "Работа",
+    "tags": ["#работа в IT", "#срочно", "#React"]
   }
 ]

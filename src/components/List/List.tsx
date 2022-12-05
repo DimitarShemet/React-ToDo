@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./List.scss";
-import { Note } from "./Note";
-import dataItems from "../db.json";
+import { Note } from "../Note/Note";
+import dataItems from "../../db.json";
 
 type Listprops = {
   newNoteName: string;
@@ -21,16 +21,14 @@ export const List = ({
     name: string;
     tags: string[];
   }
-
   const [data, setData] = useState<dataItems[]>(dataItems);
-  const getNewId = (data: dataItems[]): number => {
-    return (
-      data.reduce((maxId, note) => {
-        const currId = note.id;
-        return currId > maxId ? currId : maxId;
-      }, 0) + 1
-    );
-  };
+  useEffect(() => {
+    const NewLocalStorageData = JSON.stringify(data);
+    localStorage.setItem("dataItems", NewLocalStorageData);
+  }, [data]);
+  const LocData = JSON.parse(localStorage.getItem("dataItems") || "");
+  console.log(LocData);
+
   useEffect(() => {
     if (newNoteName) {
       const updatedData = [...data];
@@ -53,17 +51,24 @@ export const List = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [newFilterWord]);
 
+  const getNewId = (data: dataItems[]): number => {
+    return (
+      data.reduce((maxId, note) => {
+        const currId = note.id;
+        return currId > maxId ? currId : maxId;
+      }, 0) + 1
+    );
+  };
+
   const getNoteIndexById = (id: number) => {
-    return data.findIndex((elem) => elem.id === id); //везде проставить
+    return data.findIndex((elem) => elem.id === id);
   };
 
   const removeNote = (id: number) => {
-    alert(id);
     setData(data.filter((elem) => elem.id !== id));
   };
-  const removeTag = (id: number, value: string, index: number) => {
-    //Можно переписать без value
-    const noteIndex = data.findIndex((elem) => elem.id === id);
+  const removeTag = (id: number, index: number) => {
+    const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
       const updatedNote = { ...data[noteIndex] };
       updatedNote.tags.splice(index, 1);
@@ -73,23 +78,12 @@ export const List = ({
     }
   };
   const changeNoteName = (id: number, value: string) => {
-    const noteIndex = data.findIndex((elem) => elem.id === id);
-    if (noteIndex !== -1) {
-      const updatedNote = { ...data[noteIndex] };
-      updatedNote.name = value;
-      const updatedData = [...data];
-      updatedData[noteIndex] = updatedNote;
-      setData(updatedData);
-    }
-  };
-  const delHashFromNoteName = (id: number, value: string) => {
     const noteIndex = getNoteIndexById(id);
     if (noteIndex !== -1) {
       const updatedNote = { ...data[noteIndex] };
       updatedNote.name = value;
       const updatedData = [...data];
       updatedData[noteIndex] = updatedNote;
-      console.log(updatedData);
       setData(updatedData);
     }
   };
@@ -116,10 +110,11 @@ export const List = ({
       setData(updatedData);
     }
   };
+
   return (
     <div className="list_wrapper">
       <div className="list">
-        {data.map((elem) => {
+        {LocData.map((elem: any) => {
           return (
             <Note
               key={elem.id}
@@ -131,7 +126,6 @@ export const List = ({
               cbChangeNoteName={changeNoteName}
               cbChangeTagName={changeTagName}
               cbAddNewTag={addNewTag}
-              delHashFromNoteName={delHashFromNoteName}
             />
           );
         })}

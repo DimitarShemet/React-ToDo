@@ -1,19 +1,18 @@
 import React, { Fragment, useState, useEffect } from "react";
 import "./Note.scss";
-import { BasketIcon } from "./icons/BasketIcon";
-import { CrossIcon } from "./icons/CrossIcon";
-import { PlusIcon } from "./icons/PlusIcon";
+import { BasketIcon } from "../icons/BasketIcon";
+import { CrossIcon } from "../icons/CrossIcon";
+import { PlusIcon } from "../icons/PlusIcon";
 
 type PropsNote = {
   id: number;
   name: string;
   tags: string[];
   cbRemoveNote: (id: number) => void;
-  cbRemoveTag: (id: number, value: string, index: number) => void;
+  cbRemoveTag: (id: number, index: number) => void;
   cbChangeNoteName: (id: number, value: string) => void;
   cbChangeTagName: (id: number, value: string, index: number) => void;
   cbAddNewTag: (id: number, value?: string) => void;
-  delHashFromNoteName: (id: number, value: string) => void;
 };
 
 export const Note = ({
@@ -25,7 +24,6 @@ export const Note = ({
   cbChangeNoteName,
   cbChangeTagName,
   cbAddNewTag,
-  delHashFromNoteName,
 }: PropsNote) => {
   const [inputValue, setInputValue] = useState(name);
   useEffect(() => {
@@ -37,12 +35,11 @@ export const Note = ({
   const cbDeleteNote = () => {
     cbRemoveNote(id);
   };
-  const removeTag = (value: string, index: number) => {
-    cbRemoveTag(id, value, index);
+  const removeTag = (index: number) => {
+    cbRemoveTag(id, index);
   };
   const changeNoteName = (EO: React.ChangeEvent<HTMLInputElement>) => {
     const currValue = EO.target.value;
-    // cbChangeNoteName(id, currValue);
     setInputValue(currValue);
   };
   const changeTagName = (
@@ -58,8 +55,7 @@ export const Note = ({
   const addNewTag = () => {
     cbAddNewTag(id);
   };
-  const addNewTagFromValue = (EO: React.ChangeEvent<HTMLInputElement>) => {
-    // let currValue = EO.target.value;
+  const addNewTagFromValue = () => {
     const splittedInput = inputValue.split("#");
     const valueForNote = splittedInput[0];
     cbChangeNoteName(id, valueForNote);
@@ -104,7 +100,7 @@ export const Note = ({
                   onChange={(event) => changeTagName(event, index)}
                   value={elem}
                 ></input>
-                <span onClick={() => removeTag(elem, index)}>
+                <span onClick={() => removeTag(index)}>
                   <BasketIcon />
                 </span>
               </div>
@@ -119,38 +115,6 @@ export const Note = ({
                   </>
                 ) : null}
               </>
-
-              {/* <>
-                {index === tags.length - 1 ? (
-                  <>
-                    {editMode ? (
-                      <>
-                        <div className="tag" key={index + 2}>
-                          <input
-                            key={index + 1}
-                            onChange={(event) => changeTagName(event, index)}
-                            value={elem}
-                          ></input>
-                          <span onClick={() => removeTag(elem, index)}>
-                            <BasketIcon />
-                          </span>
-                        </div>
-                        <div className="tag__plus" key={index + 3}>
-                          <span onClick={addNewTag}>
-                            <PlusIcon />
-                          </span>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="tag__plus" key={index + 1}>
-                        <span onClick={addNewTag}>
-                          <PlusIcon />
-                        </span>
-                      </div>
-                    )}
-                  </>
-                ) : null}
-              </> */}
             </Fragment>
           );
         })}

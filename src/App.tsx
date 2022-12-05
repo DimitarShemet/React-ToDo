@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./App.scss";
-import { Enter } from "./components/Enter";
-import { Filter } from "./components/Filter";
-import { List } from "./components/List";
+import { Enter } from "./components/Enter/Enter";
+import { Filter } from "./components/Filter/Filter";
+import { List } from "./components/List/List";
 
 export const App = () => {
   const [draftNoteName, setDraftNoteName] = useState("");

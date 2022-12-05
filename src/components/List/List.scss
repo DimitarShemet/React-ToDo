@@ -1,0 +1,36 @@
+.list_wrapper {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  .list {
+    width: 65vw;
+    gap: 1.5rem;
+    background-color: #fae731;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto;
+    padding: 1.5rem;
+    justify-content: space-between;
+    @media (max-width: 1024px) {
+      display: block;
+      width: 55vw;
+    }
+    @media (max-width: 650px) {
+      width: 75vw;
+    }
+  }
+}
+
+.item-enter {
+  opacity: 0;
+}
+.item-enter-active {
+  opacity: 1;
+  transition: opacity 500ms linear;
+}
+.item-exit {
+  opacity: 1;
+}
+.item-exit-active {
+  opacity: 0;
+  transition: opacity 500ms linear;
+}
